@@ -4,7 +4,7 @@ title: "Sobre · IA · Saúde"
 description: "Sobre o curso — autor, motivação, licença."
 permalink: /pt-PT/sobre/
 ---
-{% from "macros/ui.njk" import objectives, aside, anchor, bridge, recap, pathChooser, term %}
+{% from "macros/ui.njk" import objectives, aside, anchor, bridge, demoFrame, recap, pathChooser, term %}
 
 {% set objItems = [
   "Distinguir o que um LLM faz (prever o próximo token) do que parece estar a fazer (raciocinar).",
@@ -20,6 +20,10 @@ permalink: /pt-PT/sobre/
 
 {% call aside("Como ler este curso", "info") %}
 Cada secção dura <strong>5 a 8 minutos</strong>. Tem um <em>demo interactivo</em>, um <em>checkpoint</em> para verificares se aprendeste, e uma ponte para a próxima secção. As <span class="maria-ref">caixas amarelas</span> seguem a Maria, uma utente fictícia de 64 anos com asma e diabetes tipo 2.
+{% endcall %}
+
+{% call demoFrame("Tokenizador · smoke test", "Mostra como o BPE corta texto clínico. Compara pt-PT com inglês equivalente.") %}
+{% demo "tokenizer-demo" %}
 {% endcall %}
 
 {% call anchor("Autor", "context") %}
