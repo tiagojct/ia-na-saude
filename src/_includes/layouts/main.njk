@@ -1,0 +1,19 @@
+---
+layout: layouts/base.njk
+---
+{# Lecture / content layout · wraps page content with nav, TOC, footer, cmd-K. #}
+
+{% include "partials/progress-bar.njk" %}
+{% include "partials/nav.njk" %}
+{% include "partials/toc-drawer.njk" %}
+
+<div class="container mx-auto flex gap-8 px-4 pt-14 sm:px-6 lg:gap-12">
+  {% include "partials/toc-aside.njk" %}
+
+  <main id="main" class="min-w-0 flex-1">
+    {{ content | safe }}
+  </main>
+</div>
+
+{% include "partials/cmdk-palette.njk" %}
+{% include "partials/footer.njk" %}

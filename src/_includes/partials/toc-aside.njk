@@ -1,0 +1,19 @@
+{# Desktop sticky TOC. #}
+<aside class="hidden w-56 shrink-0 lg:block" aria-label="{{ ui.tocTitle }}">
+  <div class="toc-aside pt-6">
+    <h2 class="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+      {{ ui.tocTitle }}<span class="ml-1 text-slate-500">· {{ sections.totalTime }} min</span>
+    </h2>
+    <nav data-toc>
+      {% for s in sections.list %}
+      <a href="#{{ s.id }}" data-section="{{ s.id }}">
+        <span class="mr-1.5 font-mono text-xs text-slate-500">{{ s.num }}</span>{{ s.label }}<span class="ml-1 text-xs text-slate-500">· {{ s.time }}m</span>
+      </a>
+      {% endfor %}
+    </nav>
+    <div class="mt-4 px-3 text-[10px] leading-relaxed text-slate-500">
+      <div class="mb-1 font-bold uppercase tracking-wider">teclas</div>
+      {{ ui.kbdHint }}
+    </div>
+  </div>
+</aside>

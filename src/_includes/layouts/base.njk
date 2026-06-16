@@ -1,9 +1,17 @@
+{# Base HTML shell · canonical, FOUC bootstrap, CSP, fonts, scripts. #}
+{# Pages set: title, description, canonical (auto), og.image (optional),
+   jsonldCourse (boolean to include JSON-LD course schema). #}
+
+{% set pageTitle = title or site.fullName %}
+{% set pageDesc = description or site.description %}
+{% set canonicalUrl = site.url + (page.url or '/') %}
+{% set ogImage = (og and og.image) or (site.base + 'og.png') %}
 <!doctype html>
-<html lang="pt-PT" data-theme="auto">
+<html lang="{{ site.lang }}" data-theme="auto">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="{{ description or site.description }}" />
+    <meta name="description" content="{{ pageDesc }}" />
     <meta name="theme-color" content="#2563eb" />
     <meta name="color-scheme" content="light dark" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -14,14 +22,30 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="permissions-policy" content="interest-cohort=()" />
 
-    <title>{{ title or site.fullName }}</title>
+    <title>{{ pageTitle }}</title>
 
     <link rel="icon" href="{% p "favicon.ico" %}" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="{% p "favicon.svg" %}" />
     <link rel="apple-touch-icon" href="{% p "apple-touch-icon.png" %}" />
     <link rel="manifest" href="{% p "manifest.webmanifest" %}" />
 
-    {# FOUC prevention · runs before paint to set data-theme and data-fontscale #}
+    <link rel="canonical" href="{{ canonicalUrl }}" />
+
+    <meta property="og:title" content="{{ pageTitle }}" />
+    <meta property="og:description" content="{{ pageDesc }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="{{ site.lang | replace('-', '_') }}" />
+    <meta property="og:url" content="{{ canonicalUrl }}" />
+    <meta property="og:image" content="{{ ogImage }}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="{{ ui.brand }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ pageTitle }}" />
+    <meta name="twitter:description" content="{{ pageDesc }}" />
+    <meta name="twitter:image" content="{{ ogImage }}" />
+
+    {# FOUC prevention · runs before paint to set data-theme and data-fontscale. #}
     <script>
       (function () {
         try {
@@ -36,11 +60,16 @@
     </script>
 
     <link rel="stylesheet" href="{% p "assets/css/global.css" %}" />
+
+    {% if jsonldCourse %}{% include "partials/jsonld-course.njk" %}{% endif %}
   </head>
   <body class="min-h-screen bg-white text-slate-900 antialiased">
-    <a href="#main" class="skip-link">Saltar para conteúdo</a>
+    <a href="#main" class="skip-link">{{ ui.skip }}</a>
 
-    {% block body %}{{ content | safe }}{% endblock %}
+    {{ content | safe }}
+
+    {# Glossary popover data · consumed by chrome.js term-popover subsystem. #}
+    <script id="ia-glossary" type="application/json">{{ glossary | dump | safe }}</script>
 
     <script type="module" src="{% p "assets/js/components-loader.js" %}" defer></script>
     <script src="{% p "assets/js/chrome.js" %}" defer></script>

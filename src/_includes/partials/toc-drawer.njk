@@ -1,0 +1,17 @@
+{# Mobile TOC drawer + desktop TOC aside. Sections data via _data/sections.js. #}
+<div id="toc-drawer" class="fixed inset-0 z-40 hidden bg-black/50 lg:hidden" role="dialog" aria-modal="true" aria-label="{{ ui.tocTitle }}">
+  <div class="absolute right-0 top-0 h-full w-72 overflow-y-auto bg-white p-4 shadow-xl">
+    <div class="mb-3 flex items-center justify-between">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500">{{ ui.tocTitle }}</h2>
+      <button type="button" id="toc-close" class="text-slate-500 hover:text-slate-700" aria-label="close">✕</button>
+    </div>
+    <p class="mb-3 text-xs text-slate-500">~{{ sections.totalTime }} min total</p>
+    <nav class="toc-aside" id="toc-mobile" data-toc>
+      {% for s in sections.list %}
+      <a href="#{{ s.id }}" data-section="{{ s.id }}">
+        <span class="mr-1.5 font-mono text-xs text-slate-500">{{ s.num }}</span>{{ s.label }}<span class="ml-1 text-xs text-slate-500">· {{ s.time }}m</span>
+      </a>
+      {% endfor %}
+    </nav>
+  </div>
+</div>

@@ -551,7 +551,75 @@
   });
 
   // ============================================================
-  // 15. Service worker
+  // 15. Term popover (glossary)
+  // ============================================================
+  (function () {
+    let glossary = null;
+    try {
+      const el = document.getElementById("ia-glossary");
+      if (el) glossary = JSON.parse(el.textContent || "{}");
+    } catch (e) {
+      console.warn("glossary parse failed", e);
+    }
+    if (!glossary || Object.keys(glossary).length === 0) return;
+
+    let popover = null;
+    function closePopover() {
+      if (popover) {
+        popover.remove();
+        popover = null;
+      }
+    }
+    function showPopover(target) {
+      closePopover();
+      const k = target.getAttribute("data-term");
+      const entry = glossary[k];
+      if (!entry) return;
+      const rect = target.getBoundingClientRect();
+      const p = document.createElement("div");
+      p.setAttribute("role", "tooltip");
+      p.dataset.for = k;
+      const left = Math.max(8, Math.min(rect.left, window.innerWidth - 320));
+      p.style.cssText = `position:fixed;top:${rect.bottom + 8}px;left:${left}px;max-width:300px;background:#0f172a;color:white;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.5;z-index:100;box-shadow:0 10px 25px rgba(0,0,0,0.2);font-family:inherit;`;
+      const header = document.createElement("div");
+      header.style.cssText =
+        "font-weight:700;color:#93c5fd;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;";
+      header.textContent = entry.term;
+      const body = document.createElement("div");
+      body.textContent = entry.def;
+      p.appendChild(header);
+      p.appendChild(body);
+      document.body.appendChild(p);
+      popover = p;
+    }
+    document.addEventListener("click", (e) => {
+      const t = e.target?.closest?.("[data-term]");
+      if (t) {
+        e.preventDefault();
+        if (popover && popover.dataset.for === t.getAttribute("data-term")) {
+          closePopover();
+        } else {
+          showPopover(t);
+        }
+      } else if (popover && !popover.contains(e.target)) {
+        closePopover();
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closePopover();
+      if (e.key === "Enter" || e.key === " ") {
+        const t = document.activeElement?.closest?.("[data-term]");
+        if (t) {
+          e.preventDefault();
+          showPopover(t);
+        }
+      }
+    });
+    window.addEventListener("scroll", closePopover, { passive: true });
+  })();
+
+  // ============================================================
+  // 16. Service worker
   // ============================================================
   if ("serviceWorker" in navigator && location.protocol !== "file:") {
     window.addEventListener("load", () => {

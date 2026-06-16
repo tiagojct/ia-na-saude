@@ -1,0 +1,20 @@
+<nav class="fixed top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur">
+  <div class="container mx-auto flex items-center justify-between px-3 py-2.5 sm:px-6">
+    <a href="{% p "" %}" class="flex items-center gap-2" aria-label="{{ ui.home }}">
+      <div class="flex h-7 w-7 items-center justify-center rounded-md bg-blue-600">
+        <span class="text-xs font-bold text-white">IA</span>
+      </div>
+      <span class="text-base font-bold text-slate-900 sm:text-lg">{{ ui.brand }}</span>
+    </a>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      <span id="current-section-label" class="hidden text-sm font-medium text-slate-500 sm:inline" aria-live="polite"></span>
+
+      <button id="toc-toggle" type="button" class="rounded-md px-2 py-1 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-blue-600 lg:hidden" aria-label="{{ ui.tocTitle }}" aria-expanded="false">
+        <svg class="inline h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+
+      {% include "partials/settings-menu.njk" %}
+    </div>
+  </div>
+</nav>

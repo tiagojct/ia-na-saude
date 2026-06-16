@@ -1,0 +1,33 @@
+---
+layout: layouts/main.njk
+title: "Sobre · IA · Saúde"
+description: "Sobre o curso — autor, motivação, licença."
+permalink: /pt-PT/sobre/
+---
+{% from "macros/ui.njk" import objectives, aside, anchor, bridge, recap, pathChooser, term %}
+
+{% set objItems = [
+  "Distinguir o que um LLM faz (prever o próximo token) do que parece estar a fazer (raciocinar).",
+  "Identificar três armadilhas concretas: alucinações, vieses, fuga de dados (RGPD).",
+  "Decidir quando delegar uma tarefa à IA usando a heurística da reversibilidade."
+] %}
+
+{% section "sobre", "00", "Sobre o curso", "3 min", "Quem fez isto, porquê, e como usar.", "Curso aberto · pt-PT · sem ego: o objectivo é que o uses na clínica amanhã." %}
+
+<p>O <strong>IA · Saúde</strong> é um curso aberto sobre IA generativa e <em>large language models</em> para profissionais de saúde portugueses. Não substitui formação formal nem normas locais — junta-se a elas. Termos como {{ term("tokenizacao", "tokenização") | safe }} ou {{ term("rgpd") | safe }} têm definição inline · clica.</p>
+
+{{ objectives(objItems) | safe }}
+
+{% call aside("Como ler este curso", "info") %}
+Cada secção dura <strong>5 a 8 minutos</strong>. Tem um <em>demo interactivo</em>, um <em>checkpoint</em> para verificares se aprendeste, e uma ponte para a próxima secção. As <span class="maria-ref">caixas amarelas</span> seguem a Maria, uma utente fictícia de 64 anos com asma e diabetes tipo 2.
+{% endcall %}
+
+{% call anchor("Autor", "context") %}
+Curso preparado por {{ site.author.name }}, médico interno de formação geral. Comentários, erros, sugestões: <a href="{{ site.author.url }}">tiagojct.eu</a>.
+{% endcall %}
+
+{{ pathChooser() | safe }}
+
+{% call bridge() %}Pronto para começar? <a href="{% p 'pt-PT/' %}">Vai para a aula</a>.{% endcall %}
+
+{% endsection %}

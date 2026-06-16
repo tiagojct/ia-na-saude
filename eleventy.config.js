@@ -25,6 +25,7 @@
  */
 
 import qrcode from "qrcode";
+import glossaryData from "./src/_data/glossary.js";
 
 const BASE = process.env.BASE ?? "/ia-na-saude/";
 const SITE = process.env.SITE ?? "https://tiagojct.github.io";
@@ -118,6 +119,12 @@ ${content}
       : "";
     return `<${name}${attrStr}></${name}>`;
   });
+
+  // ---- Globals (visible inside macros, not just templates) ----------------
+
+  // Without this, _data/glossary.js is in the data cascade but NOT visible
+  // inside Nunjucks {% macro %} scope. Macros see globals, not page data.
+  eleventyConfig.addNunjucksGlobal("glossary", glossaryData);
 
   // ---- Filters -------------------------------------------------------------
 

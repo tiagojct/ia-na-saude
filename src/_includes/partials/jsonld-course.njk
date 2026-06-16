@@ -1,0 +1,24 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": {{ (title or site.fullName) | dump | safe }},
+  "description": {{ (description or site.description) | dump | safe }},
+  "inLanguage": "{{ site.lang }}",
+  "provider": {
+    "@type": "Person",
+    "name": "{{ site.author.name }}",
+    "url": "{{ site.author.url }}"
+  },
+  "educationalCredentialAwarded": "Auto-estudo",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "Healthcare professional"
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "courseWorkload": "PT{{ site.totalTimeMin }}M"
+  }
+}
+</script>
