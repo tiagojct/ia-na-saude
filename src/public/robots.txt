@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tiagojct.github.io/learning-health-ai/sitemap-index.xml

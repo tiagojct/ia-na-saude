@@ -1,0 +1,32 @@
+{
+  "name": "IA na Saúde",
+  "short_name": "IA · Saúde",
+  "description": "Inteligência artificial para profissionais de saúde · 14 secções · 36 demos interactivos.",
+  "start_url": "/ia-na-saude/",
+  "scope": "/ia-na-saude/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "lang": "pt-PT",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/ia-na-saude/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/ia-na-saude/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/ia-na-saude/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "medical", "books"]
+}
