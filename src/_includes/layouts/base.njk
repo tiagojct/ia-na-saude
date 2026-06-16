@@ -45,8 +45,10 @@
     <meta name="twitter:description" content="{{ pageDesc }}" />
     <meta name="twitter:image" content="{{ ogImage }}" />
 
-    {# FOUC prevention · runs before paint to set data-theme and data-fontscale. #}
+    {# FOUC prevention + base URL · runs before paint to set data-theme,
+       data-fontscale, and expose window.__IA_BASE__ to components. #}
     <script>
+      window.__IA_BASE__ = "{{ site.base }}";
       (function () {
         try {
           var t = localStorage.getItem("ia-saude-theme");

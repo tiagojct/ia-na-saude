@@ -8,7 +8,7 @@
  * pt-PT only (en-US dropped during 11ty migration).
  */
 
-export const SECTIONS = [
+const SECTIONS = [
   {
     id: "abertura",
     num: "01",
@@ -137,9 +137,9 @@ export const SECTIONS = [
   },
 ];
 
-export const SECTION_IDS = SECTIONS.map((s) => s.id);
+const SECTION_IDS = SECTIONS.map((s) => s.id);
 
-export function totalReadingTime() {
+function totalReadingTime() {
   return SECTIONS.reduce((a, s) => a + s.time, 0);
 }
 
