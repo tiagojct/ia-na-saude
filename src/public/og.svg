@@ -36,8 +36,8 @@
   <text x="80" y="460" fill="white" font-size="78" class="display">de saúde.</text>
 
   <g transform="translate(80, 540)">
-    <text fill="#94a3b8" font-size="22" class="meta">14 secções · 33 demos interactivos · ~80 min</text>
-    <text y="36" fill="#64748b" font-size="18" class="mono">tiagojct.github.io/learning-health-ai</text>
+    <text fill="#94a3b8" font-size="22" class="meta">14 secções · 34 demos interactivos · ~80 min</text>
+    <text y="36" fill="#64748b" font-size="18" class="mono">tiagojct.github.io/ia-na-saude</text>
   </g>
 
   <g transform="translate(880, 80)">
