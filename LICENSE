@@ -1,4 +1,8 @@
-MIT License
+MIT License (code) + CC-BY-4.0 (content)
+
+================================================================================
+CODE: MIT
+================================================================================
 
 Copyright (c) 2026 Tiago Jacinto
 
@@ -19,3 +23,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+================================================================================
+CONTENT (text, demos, illustrations): CC-BY-4.0
+================================================================================
+
+The pedagogical content (text in Nunjucks/Markdown pages, demo scenarios,
+diagrams, glossary entries, the Maria case) is licensed under Creative
+Commons Attribution 4.0 International (CC-BY-4.0).
+
+You may copy, redistribute, remix, transform, and build upon the material for
+any purpose, even commercially, provided you give appropriate credit:
+
+    "Adapted from IA na Saúde by Tiago Jacinto, CC-BY-4.0,
+     https://tiagojct.eu/ia-na-saude/"
+
+Full text: https://creativecommons.org/licenses/by/4.0/
