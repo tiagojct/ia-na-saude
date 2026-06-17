@@ -1,0 +1,16 @@
+---
+layout: layouts/main.njk
+title: "IA na Saúde · Inteligência Artificial para Profissionais de Saúde"
+description: "Curso aberto sobre IA e LLMs em saúde · 14 secções · 34 demos interactivos · pt-PT · ~80 min."
+permalink: /pt-PT/
+jsonldCourse: true
+---
+{% from "macros/ui.njk" import bridge %}
+
+<div class="container mx-auto max-w-4xl px-4 sm:px-6">
+  {% for s in collections.sections %}
+    {% section s.data.id, s.data.num, s.data.title, s.data.time, s.data.lead, s.data.idea %}
+    {{ s.templateContent | safe }}
+    {% endsection %}
+  {% endfor %}
+</div>

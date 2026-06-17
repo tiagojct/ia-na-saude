@@ -12,17 +12,33 @@ permalink: /
     IA na Saúde
   </h1>
   <p class="mb-8 text-xl leading-relaxed text-slate-600">
-    Curso aberto sobre IA e LLMs em saúde — 14 secções, demos interactivos.
-    Site em construção.
+    Curso aberto sobre inteligência artificial para profissionais de saúde portugueses. <strong>14 secções</strong>, <strong>34 demos interactivos</strong>, ~80 min. pt-PT.
   </p>
 
-  <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
-    <div class="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-      Em construção
-    </div>
-    <p class="text-sm text-slate-700">
-      Skeleton em 11ty · {{ site.courseYear }}. Conteúdo da aula a ser migrado do repo
-      anterior em Astro.
-    </p>
+  <div class="mb-8">
+    {% demo "hero-ticker" %}
+  </div>
+
+  <div class="grid gap-3 sm:grid-cols-2">
+    <a href="{% p 'pt-PT/' %}" class="block rounded-2xl border-2 border-blue-500 bg-blue-50 p-5 hover:border-blue-600">
+      <div class="mb-1 text-xs font-bold uppercase tracking-wider text-blue-700">começar a aula →</div>
+      <div class="font-bold text-slate-900">14 secções · 34 demos</div>
+      <div class="mt-1 text-sm text-slate-600">A versão completa. ~80 min, podes pausar.</div>
+    </a>
+    <a href="{% p 'pt-PT/sobre/' %}" class="block rounded-2xl border border-slate-200 bg-white p-5 hover:border-blue-400">
+      <div class="mb-1 text-xs font-bold uppercase tracking-wider text-slate-500">sobre o curso</div>
+      <div class="font-bold text-slate-900">Quem · porquê · como</div>
+      <div class="mt-1 text-sm text-slate-600">Autor, motivação e licença.</div>
+    </a>
+    <a href="{% p 'pt-PT/demos/' %}" class="block rounded-2xl border border-slate-200 bg-white p-5 hover:border-blue-400">
+      <div class="mb-1 text-xs font-bold uppercase tracking-wider text-slate-500">galeria</div>
+      <div class="font-bold text-slate-900">Saltar ao demo</div>
+      <div class="mt-1 text-sm text-slate-600">34 demos · filtra por categoria.</div>
+    </a>
+    <a href="{% p 'pt-PT/quiz/' %}" class="block rounded-2xl border border-slate-200 bg-white p-5 hover:border-blue-400">
+      <div class="mb-1 text-xs font-bold uppercase tracking-wider text-slate-500">quiz</div>
+      <div class="font-bold text-slate-900">Verifica em ti</div>
+      <div class="mt-1 text-sm text-slate-600">Perguntas por tópico com explicação.</div>
+    </a>
   </div>
 </main>
