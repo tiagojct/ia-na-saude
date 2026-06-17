@@ -1,0 +1,37 @@
+---
+layout: layouts/base.njk
+title: "Quiz · IA · Saúde"
+description: "Quiz por tópico · 12 tópicos × 4 perguntas com explicação. Verifica em ti antes de assinar."
+permalink: /pt-PT/quiz/
+---
+
+<div class="container mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
+  <p class="mb-3 text-sm font-medium text-blue-600">
+    <a href="{% p 'pt-PT/' %}" class="hover:underline">← voltar à aula</a>
+  </p>
+  <h1 class="mb-3 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+    Quiz por tópico
+  </h1>
+  <p class="mb-8 max-w-2xl text-lg text-slate-600">
+    12 tópicos × 4 perguntas com explicação. Pensa antes de submeter — cada resposta dá-te uma calibração mais honesta do que sabes mesmo.
+  </p>
+
+  <div class="space-y-10">
+    {% for topic in quizTopics %}
+    <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="mb-1 flex items-baseline gap-2">
+        <span class="font-mono text-xs text-slate-500">{{ topic.num }}</span>
+        <h2 class="text-2xl font-bold text-slate-900">{{ topic.title }}</h2>
+      </div>
+      <p class="mb-5 text-sm text-slate-600">{{ topic.blurb }}</p>
+      {% demo "topic-quiz", { topic: topic.id, reviewHref: "/ia-na-saude/pt-PT/#" + topic.id } %}
+    </section>
+    {% endfor %}
+  </div>
+
+  <div class="mt-12 rounded-lg border border-blue-300 bg-blue-50 p-5 text-sm leading-relaxed text-slate-700">
+    <p>
+      <strong>Para instrutores:</strong> cada secção do quiz é um demo independente. Podes embutir um único tópico noutra página com <code class="rounded bg-white px-1 font-mono text-xs">{% raw %}{% demo "topic-quiz", { topic: "rag" } %}{% endraw %}</code>.
+    </p>
+  </div>
+</div>
