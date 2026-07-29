@@ -13,7 +13,7 @@ export default [
   { id: "prompts", num: "07", title: "Prompts · papel · público · formato", blurb: "Receita para reduzir ambiguidade" },
   { id: "alucinacoes", num: "08", title: "Alucinações · fluência ≠ verdade", blurb: "30-60 % das citações fabricadas em medicina" },
   { id: "vieses", num: "09", title: "Vieses · dados, design, implantação", blurb: "Obermeyer 2019 · onde os modelos discriminam" },
-  { id: "rag", num: "10", title: "RAG · biblioteca antes da resposta", blurb: "Corta alucinações em 30-60 %" },
+  { id: "rag", num: "10", title: "RAG · biblioteca antes da resposta", blurb: "Reduz alucinações quando o retrieval é bom" },
   { id: "agentes", num: "11", title: "Agentes · porta humana", blurb: "Observa · decide · age" },
   { id: "privacidade", num: "12", title: "Privacidade · RGPD · EU AI Act", blurb: "Combinação ainda reidentifica" },
   { id: "quando", num: "13", title: "Quando usar · reversibilidade", blurb: "Sens vs spec · Bayes · drift · delegação" },

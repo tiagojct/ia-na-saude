@@ -33,6 +33,14 @@ test.describe("smoke · lecture page + custom elements hydrate", () => {
     await expect(page.locator("#cmdk-palette")).not.toHaveClass(/hidden/);
   });
 
+  test("desktop TOC links navigate to sections", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(b("/pt-PT/"));
+    await page.locator('.toc-aside a[data-section="rag"]').click();
+    await expect.poll(() => new URL(page.url()).hash).toBe("#rag");
+    await expect(page.locator("#rag")).toBeInViewport();
+  });
+
   test("theme toggle persists in localStorage", async ({ page }) => {
     await page.goto(b("/pt-PT/"));
     await page.locator("details summary").first().click();

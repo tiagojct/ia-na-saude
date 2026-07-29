@@ -124,6 +124,19 @@
       document.body.classList.add("aula-completa");
     }
   }
+  function markTocVisited(id) {
+    document
+      .querySelectorAll(`[data-toc] a[data-section="${CSS.escape(id)}"]`)
+      .forEach((toc) => toc.classList.add("visited"));
+  }
+  function setActiveToc(id) {
+    document.querySelectorAll("[data-toc] a").forEach((a) => {
+      a.classList.toggle("active", a.dataset.section === id);
+      if (a.dataset.section === id) a.setAttribute("aria-current", "location");
+      else a.removeAttribute("aria-current");
+    });
+  }
+  visited.forEach((id) => markTocVisited(id));
   if ("IntersectionObserver" in window && SECTIONS.length > 0) {
     const io = new IntersectionObserver(
       (entries) => {
@@ -131,14 +144,8 @@
           if (e.isIntersecting) {
             visited.add(e.target.id);
             e.target.classList.add("visited");
-            const toc = document.querySelector(`[data-toc] a[data-section="${e.target.id}"]`);
-            if (toc) {
-              document
-                .querySelectorAll("[data-toc] a")
-                .forEach((a) => a.classList.remove("active"));
-              toc.classList.add("active", "visited");
-              toc.setAttribute("aria-current", "true");
-            }
+            markTocVisited(e.target.id);
+            setActiveToc(e.target.id);
           }
         }
         persistVisited();
@@ -167,6 +174,9 @@
     document.body.classList.remove("aula-completa");
     document
       .querySelectorAll("[data-section].visited")
+      .forEach((el) => el.classList.remove("visited"));
+    document
+      .querySelectorAll("[data-toc] a.visited")
       .forEach((el) => el.classList.remove("visited"));
   });
   checkCompletion();
@@ -413,7 +423,7 @@
     renderPalette("");
     palette.classList.remove("hidden");
     cmdkInput?.focus();
-    cmdkInput && (cmdkInput.value = "");
+    if (cmdkInput) cmdkInput.value = "";
   }
   function closePalette() {
     palette?.classList.add("hidden");

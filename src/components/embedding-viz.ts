@@ -16,6 +16,9 @@ interface Cluster {
   color: string;
 }
 
+const WIDTH = 600;
+const HEIGHT = 340;
+
 const CLUSTERS: Record<string, Cluster> = {
   cardio: { cx: 155, cy: 90, label: "cardio", labelX: 155, labelY: 38, color: "#dc2626" },
   pulm: { cx: 445, cy: 110, label: "pulmonar", labelX: 445, labelY: 58, color: "#2563eb" },
@@ -67,6 +70,14 @@ const INITIAL_POS = TERMS.map(() => ({
   x: 60 + rand() * 480,
   y: 50 + rand() * 280,
 }));
+
+function pctX(x: number): number {
+  return (x / WIDTH) * 100;
+}
+
+function pctY(y: number): number {
+  return (y / HEIGHT) * 100;
+}
 
 export class EmbeddingViz extends IaElement {
   @property({ type: Number, state: true }) step = 0;
@@ -121,53 +132,45 @@ export class EmbeddingViz extends IaElement {
           ${STAGES[this.step]}
         </p>
 
-        <div class="rounded-lg border border-slate-200 bg-slate-50 p-2">
-          <svg viewBox="0 0 600 340" class="w-full h-auto">
-            ${this.step >= 6
-              ? Object.values(CLUSTERS).map(
-                  (c) => html`<g>
-                    <ellipse
-                      cx=${c.cx}
-                      cy=${c.cy}
-                      rx="115"
-                      ry="62"
-                      fill=${c.color}
-                      fill-opacity="0.08"
-                      stroke=${c.color}
-                      stroke-opacity="0.3"
-                      stroke-dasharray="3,3"
-                    ></ellipse>
-                    <text
-                      x=${c.labelX}
-                      y=${c.labelY}
-                      text-anchor="middle"
-                      font-size="11"
-                      font-weight="700"
-                      fill=${c.color}
-                      opacity="0.7"
-                    >
-                      ${c.label}
-                    </text>
-                  </g>`,
-                )
-              : ""}
-            ${TERMS.map((term, i) => {
-              const c = CLUSTERS[term.c];
-              const p = positions[i];
-              return html`<g style="transition:all 600ms ease-out">
-                <circle cx=${p.x} cy=${p.y} r="3" fill=${c.color}></circle>
-                <text
-                  x=${p.x + 6}
-                  y=${p.y + 4}
-                  font-size="10"
-                  fill="#1e293b"
-                  font-weight="500"
-                >
-                  ${term.t}
-                </text>
-              </g>`;
-            })}
-          </svg>
+        <div
+          class="relative h-[340px] overflow-hidden rounded-lg border border-slate-200 bg-slate-50"
+          role="img"
+          aria-label="Mapa de embeddings clínicos com termos a convergir para clusters semânticos"
+        >
+          ${this.step >= 6
+            ? Object.values(CLUSTERS).map(
+                (c) => html`<div
+                    class="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed opacity-80"
+                    style="left:${pctX(c.cx)}%;top:${pctY(c.cy)}%;width:${pctX(230)}%;height:${pctY(124)}%;border-color:${c.color};background:${c.color}14;"
+                    aria-hidden="true"
+                  ></div>
+                  <div
+                    class="absolute -translate-x-1/2 text-xs font-bold uppercase tracking-wider"
+                    style="left:${pctX(c.labelX)}%;top:${pctY(c.labelY)}%;color:${c.color};"
+                  >
+                    ${c.label}
+                  </div>`,
+              )
+            : ""}
+          ${TERMS.map((term, i) => {
+            const c = CLUSTERS[term.c];
+            const p = positions[i];
+            return html`<div
+              class="absolute transition-all duration-700 ease-out"
+              style="left:${pctX(p.x)}%;top:${pctY(p.y)}%;"
+            >
+              <span
+                class="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-sm ring-2 ring-white"
+                style="background:${c.color};"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="ml-2 inline-block -translate-y-1/2 rounded bg-white/90 px-1.5 py-0.5 text-xs font-medium text-slate-800 shadow-sm"
+              >
+                ${term.t}
+              </span>
+            </div>`;
+          })}
         </div>
 
         <div class="mt-3 flex gap-2">

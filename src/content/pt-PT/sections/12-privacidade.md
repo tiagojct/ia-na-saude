@@ -7,7 +7,7 @@ lead: "Tirar nome e data não chega. A combinação restante reidentifica."
 idea: "Política de privacidade ≠ conformidade. Sem BAA, sem PHI."
 ---
 
-{% from "macros/ui.njk" import objectives, aside, anchor, bridge, term %}
+{% from "macros/ui.njk" import objectives, aside, anchor, bridge, checkpointPrompt, term %}
 
 {{ objectives([
   "Distinguir identificadores directos de indirectos.",
@@ -33,12 +33,18 @@ idea: "Política de privacidade ≠ conformidade. Sem BAA, sem PHI."
 <strong>2025-02-02:</strong> práticas proibidas em vigor.<br/>
 <strong>2025-08-02:</strong> obrigações GPAI.<br/>
 <strong>2026-08-02:</strong> aplicação geral do regulamento.<br/>
-<strong>2027-08-02:</strong> sistemas de alto risco em saúde · conformidade total exigida.
+<strong>2027-12-02:</strong> sistemas de alto risco em áreas do Anexo III, após o acordo político de simplificação.<br/>
+<strong>2028-08-02:</strong> IA integrada em produtos regulados, incluindo dispositivos médicos, tem transição alargada.
 {% endcall %}
 
 {% call aside("CNPD · Portugal", "info") %}
 Comissão Nacional de Protecção de Dados é a autoridade local. Em caso de data breach com risco para o titular, notificar em 72 h (RGPD art. 33). Documentar é mandatório, mesmo que decidas não notificar (com justificação).
 {% endcall %}
+
+{{ checkpointPrompt(
+  "Podes colar numa ferramenta pública uma nota sem nome, mas com idade, freguesia, data rara de cirurgia e número de quarto?",
+  "Não. Dados indirectos combinados podem reidentificar. Antes de enviar, remove ou generaliza a combinação e confirma base legal/contratual do fornecedor."
+) }}
 
 {% call bridge() %}
 Tudo o que vimos diz <em>como</em> a IA funciona. Falta o quando. Quando é razoável usar?

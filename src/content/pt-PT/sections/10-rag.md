@@ -4,7 +4,7 @@ id: rag
 title: "RAG · biblioteca antes da resposta"
 time: "4 min"
 lead: "Retrieval-Augmented Generation: o modelo procura antes de responder."
-idea: "RAG bem desenhado corta alucinações em 30-60 %. Mal desenhado pode piorar."
+idea: "RAG bem desenhado reduz alucinações em muitas tarefas. Mal desenhado pode piorar."
 ---
 
 {% from "macros/ui.njk" import objectives, aside, anchor, bridge, term %}
@@ -28,7 +28,7 @@ idea: "RAG bem desenhado corta alucinações em 30-60 %. Mal desenhado pode pior
 {% endcall %}
 
 {% call anchor("Amugongo et al., 2025 · npj Digital Medicine", "evidence") %}
-Revisão sistemática de RAG em medicina: redução média de 38 % nas alucinações em tarefas clínicas (com IC 95 % 28–48 %). <a href="https://www.nature.com/articles/s41746-025-01670-7" target="_blank" rel="noopener">npj-digital-medicine</a>
+Revisão sistemática de RAG em medicina: nas tarefas avaliadas, a mediana das reduções de alucinação ronda 38 %, mas varia muito por corpus, retrieval, métrica e especialidade. <a href="https://www.nature.com/articles/s41746-025-01670-7" target="_blank" rel="noopener">npj-digital-medicine</a>
 {% endcall %}
 
 {% call aside("Ferramentas que já fazem isto", "info") %}

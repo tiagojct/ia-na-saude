@@ -7,6 +7,7 @@ import globals from "globals";
 export default [
   {
     ignores: [
+      "_site/**",
       "dist/**",
       ".astro/**",
       "node_modules/**",

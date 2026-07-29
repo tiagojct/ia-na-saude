@@ -27,8 +27,37 @@ const EN_MORPHEMES = [
   "pneumo", "nect", "omy", "ectomy", "ology", "ologist", "scopy", "graphy",
   "centesis", "plasty", "stomy", "tomy", "rrhag", "anti", "hypo", "hyper",
   "endo", "epi", "para", "peri", "trans", "intra", "extra", "sub", "supra",
-  "inter", "auto", "ic", "ical", "ation", "tion", "ing", "ed", "er", "or",
+  "inter", "retro", "sternal", "dyspnea", "sweating", "smoker", "pack",
+  "years", "history", "patient", "presents", "productive", "cough",
+  "hypertension", "diabetes", "mellitus", "current", "pain", "auto", "ic",
+  "ical", "ation", "tion", "ing", "ed", "er", "or",
 ].sort((a, b) => b.length - a.length);
+
+const EN_WHOLE_WORDS = new Set([
+  "patient",
+  "presents",
+  "productive",
+  "cough",
+  "urgent",
+  "pneumonectomy",
+  "bronchopulmonary",
+  "carcinoma",
+  "maria",
+  "joaquina",
+  "years",
+  "history",
+  "hypertension",
+  "diabetes",
+  "mellitus",
+  "type",
+  "ex-smoker",
+  "pack-years",
+  "current",
+  "retrosternal",
+  "pain",
+  "dyspnea",
+  "sweating",
+]);
 
 interface Preset {
   label: string;
@@ -36,7 +65,7 @@ interface Preset {
   en: string;
 }
 
-const PRESETS: Preset[] = [
+export const PRESETS: Preset[] = [
   {
     label: "frase curta",
     pt: "O doente apresenta tosse produtiva há 3 dias.",
@@ -49,20 +78,24 @@ const PRESETS: Preset[] = [
   },
   {
     label: "nota da Maria",
-    pt: "Maria Joaquina, 64 anos. Antecedentes: HTA, DM2 (HbA1c 9,1 %), ex-fumadora 30 maços-ano. Presente: dor retroesternal, dispneia, sudorese.",
-    en: "Maria Joaquina, 64 years. History: hypertension, T2D (HbA1c 9.1%), ex-smoker 30 pack-years. Now: retrosternal pain, dyspnea, sweating.",
+    pt: "Maria Joaquina, 64 anos. Antecedentes: hipertensão arterial, diabetes mellitus tipo 2 (HbA1c 9,1 %), ex-fumadora 30 maços-ano. Queixa atual: dor retroesternal, dispneia, sudorese.",
+    en: "Maria Joaquina, 64 years. History: hypertension, type 2 diabetes mellitus (HbA1c 9.1%), ex-smoker 30 pack-years. Current complaint: retrosternal pain, dyspnea, sweating.",
   },
 ];
 
-function tokenize(text: string, isEnglish: boolean): string[] {
+export function tokenize(text: string, isEnglish: boolean): string[] {
   if (!text) return [];
   const morphemes = isEnglish ? EN_MORPHEMES : PT_MORPHEMES;
   const out: string[] = [];
-  const parts = text.split(/(\s+|[.,!?;:()\[\]\-\/])/);
+  const parts = text.split(/(\s+|[.,!?;:()\[\]\/%])/);
   for (const part of parts) {
     if (!part) continue;
     if (/^\s+$/.test(part)) continue;
-    if (/^[.,!?;:()\[\]\-\/]$/.test(part)) {
+    if (/^[.,!?;:()\[\]\/%]$/.test(part)) {
+      out.push(part);
+      continue;
+    }
+    if (isEnglish && EN_WHOLE_WORDS.has(part.toLowerCase())) {
       out.push(part);
       continue;
     }

@@ -173,7 +173,7 @@ body {
 :root[data-theme="dark"] .lecture-prose tr:hover td { background: rgba(255, 255, 255, 0.02); }
 :root[data-theme="dark"] .toc-aside a:hover { background: rgba(37, 99, 235, 0.15); }
 :root[data-theme="dark"] .toc-aside a.active { background: rgba(37, 99, 235, 0.25); color: #93c5fd; border-left-color: #60a5fa; }
-:root[data-theme="dark"] .toc-aside a.visited::after { color: #86efac; }
+:root[data-theme="dark"] .toc-aside a.visited::after { background: #86efac; }
 :root[data-theme="dark"] .maria-ref {
   background: linear-gradient(transparent 60%, rgba(245, 158, 11, 0.35) 60%);
   color: #fcd34d;
@@ -366,7 +366,9 @@ button:focus-visible, a:focus-visible {
 }
 .toc-aside a {
   display: block;
+  position: relative;
   padding: 0.4rem 0.75rem;
+  padding-right: 1.25rem;
   margin: 0.1rem 0;
   font-size: 0.825rem;
   color: #64748b;
@@ -387,9 +389,19 @@ button:focus-visible, a:focus-visible {
   font-weight: 700;
 }
 .toc-aside a.visited::after {
-  content: " ✓";
-  color: #16a34a;
-  font-weight: 700;
+  content: "";
+  position: absolute;
+  right: 0.45rem;
+  top: 50%;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: #16a34a;
+  transform: translateY(-50%);
+  opacity: 0.75;
+}
+.toc-aside a.active::after {
+  opacity: 0;
 }
 
 /* MYCIN demo accents */

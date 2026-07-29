@@ -26,9 +26,11 @@
 
 import qrcode from "qrcode";
 import glossaryData from "./src/_data/glossary.js";
+import sectionsData from "./src/_data/sections.js";
 
 const BASE = process.env.BASE ?? "/ia-na-saude/";
 const SITE = process.env.SITE ?? "https://tiagojct.github.io";
+const SECTION_BY_ID = new Map(sectionsData.list.map((s) => [s.id, s]));
 
 // Strip trailing slash for joining
 function joinUrl(base, path) {
@@ -36,6 +38,13 @@ function joinUrl(base, path) {
   const b = base.endsWith("/") ? base.slice(0, -1) : base;
   const p = path.startsWith("/") ? path : "/" + path;
   return b + p;
+}
+
+function escapeAttr(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;");
 }
 
 // Async QR code cache
@@ -82,20 +91,23 @@ export default function (eleventyConfig) {
   eleventyConfig.addPairedShortcode(
     "section",
     function (content, id, num, title, time, lead, idea) {
-      return `<section id="${id}" data-section data-num="${num ?? ""}" class="border-t border-slate-100 py-14 sm:py-16">
+      const slots = SECTION_BY_ID.get(id)?.slots ?? [];
+      const slotsAttr = slots.length ? ` data-slots="${escapeAttr(slots.join(" "))}"` : "";
+      const headingTag = num === "00" || num === "01" ? "h1" : "h2";
+      return `<section id="${escapeAttr(id)}" data-section data-num="${escapeAttr(num ?? "")}"${slotsAttr} class="border-t border-slate-100 py-14 sm:py-16">
   <header class="mb-8">
     <div class="mb-3 flex flex-wrap items-baseline gap-2">
       <span class="section-num">${num ?? ""}</span>
       ${time ? `<span class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-500">~${time}</span>` : ""}
     </div>
     <div class="mb-4 flex items-baseline gap-3">
-      <h2 class="text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl" style="letter-spacing:-0.025em;">
-        <a href="#${id}" class="group relative no-underline" aria-label="link directo · ${title}">
+      <${headingTag} class="text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl" style="letter-spacing:-0.025em;">
+        <a href="#${escapeAttr(id)}" class="group relative no-underline" aria-label="link directo · ${escapeAttr(title)}">
           ${title}
           <span aria-hidden="true" class="ml-2 align-middle text-base text-slate-300 opacity-0 transition-opacity group-hover:opacity-100">#</span>
         </a>
-      </h2>
-      <button type="button" class="section-share rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-500" data-section-id="${id}" data-section-title="${title}" aria-label="copiar link · ${title}" title="copiar link">
+      </${headingTag}>
+      <button type="button" class="section-share rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-500" data-section-id="${escapeAttr(id)}" data-section-title="${escapeAttr(title)}" aria-label="copiar link · ${escapeAttr(title)}" title="copiar link">
         <span>copiar link</span>
       </button>
     </div>
@@ -112,12 +124,15 @@ ${content}
   // {% demo "tokenizer-demo" %} → <tokenizer-demo></tokenizer-demo>
   // {% demo "tokenizer-demo", { foo: 'bar' } %} → attributes
   eleventyConfig.addShortcode("demo", (name, attrs) => {
+    const label = attrs?.label ?? name;
+    const rest = attrs ? { ...attrs } : null;
+    if (rest) delete rest.label;
     const attrStr = attrs
-      ? Object.entries(attrs)
-          .map(([k, v]) => ` ${k}="${String(v).replace(/"/g, "&quot;")}"`)
+      ? Object.entries(rest)
+          .map(([k, v]) => ` ${k}="${escapeAttr(v)}"`)
           .join("")
       : "";
-    return `<${name}${attrStr}></${name}>`;
+    return `<div class="demo-frame not-prose my-10" data-demo-label="${escapeAttr(label)}"><${name}${attrStr}></${name}></div>`;
   });
 
   // ---- Globals (visible inside macros, not just templates) ----------------

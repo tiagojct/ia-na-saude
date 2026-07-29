@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const PORT = 8080;
-const BASE_PATH = "/ia-na-saude";
+const BASE_PATH = process.env.PLAYWRIGHT_BASE_PATH ?? "";
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -22,7 +22,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run dev:eleventy",
+    command: "BASE=/ npm run dev:eleventy",
     url: `http://localhost:${PORT}${BASE_PATH}/`,
     reuseExistingServer: !process.env.CI,
     stdout: "ignore",

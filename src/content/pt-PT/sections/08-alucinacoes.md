@@ -7,7 +7,7 @@ lead: "30–60 % das citações fabricadas em medicina, com DOIs plausíveis."
 idea: "Se a citação parece demasiado conveniente, suspeita. Abre o DOI. Se não existir, não existe."
 ---
 
-{% from "macros/ui.njk" import objectives, aside, anchor, bridge, mariaCloser %}
+{% from "macros/ui.njk" import objectives, aside, anchor, bridge, checkpointPrompt, mariaCloser %}
 
 {{ objectives([
   "Reconhecer a estrutura de uma alucinação fluente.",
@@ -39,6 +39,11 @@ Se pedires ao ChatGPT recomendações para a Maria, há ~50 % de hipótese de um
 3. Lista de defesas externa: ferramentas como Open Evidence, Glass Health, Elicit que <strong>citam</strong> e permitem clicar.
 4. Revisão humana antes de assinar. <strong>Sempre.</strong>
 {% endcall %}
+
+{{ checkpointPrompt(
+  "Um LLM gera uma recomendação correcta, mas cita um DOI que não abre. Entra na carta clínica?",
+  "Não. A conclusão pode ser útil como hipótese, mas a referência fabricada contamina o documento. Remove a citação, verifica a fonte real, e só depois assina."
+) }}
 
 {% call bridge() %}
 E quando o modelo não inventa, mas reproduz preconceitos? Os vieses são mais subtis e mais perigosos.

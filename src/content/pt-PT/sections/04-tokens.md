@@ -19,7 +19,7 @@ idea: "O modelo não vê palavras. Vê tokens. E o pt-PT custa ~30 % mais que o 
 
 {% demo "tokenizer-demo" %}
 
-<p>Carrega "nota da Maria" e compara: ~85 tokens em pt vs ~60 em en para o mesmo texto. Em mil chamadas, são tokens (e custo) extra que a versão inglesa evita. Em on-premise ou modelo local, este overhead é zero — outra razão para considerar modelos treinados em corpora multilingues.</p>
+<p>Carrega "nota da Maria" e compara a versão pt-PT com o inglês equivalente. Em tokenizadores treinados sobretudo em inglês, o português tende a partir mais termos clínicos em subpalavras. Em mil chamadas, essa diferença vira janela de contexto e custo. Em on-premise ou modelo local multilingue, este overhead pode diminuir — outra razão para olhar para o tokenizador, não só para o modelo.</p>
 
 {% demo "embedding-viz" %}
 

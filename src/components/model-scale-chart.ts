@@ -33,6 +33,37 @@ function fmt(n: number): string {
 
 const minLog = Math.log10(65e6);
 const maxLog = Math.log10(10e12);
+const plot = {
+  left: 72,
+  right: 24,
+  top: 44,
+  bottom: 62,
+  width: 720,
+  height: 340,
+};
+
+function xFor(i: number): number {
+  return plot.left + (i / (MODELS.length - 1)) * (plot.width - plot.left - plot.right);
+}
+
+function yFor(params: number): number {
+  return (
+    plot.top +
+    (1 - (Math.log10(params) - minLog) / (maxLog - minLog)) *
+      (plot.height - plot.top - plot.bottom)
+  );
+}
+
+function labelYFor(y: number, i: number): number {
+  const preferred = i % 2 === 0 ? y - 16 : y + 28;
+  return Math.max(plot.top - 18, Math.min(plot.height - plot.bottom - 18, preferred));
+}
+
+function labelAnchorFor(i: number): "start" | "middle" | "end" {
+  if (i === 0) return "start";
+  if (i === MODELS.length - 1) return "end";
+  return "middle";
+}
 
 export class ModelScaleChart extends IaElement {
   @property({ type: String, state: true }) activeName: string = MODELS[3].name;
@@ -40,55 +71,114 @@ export class ModelScaleChart extends IaElement {
   protected render() {
     const active = MODELS.find((m) => m.name === this.activeName) ?? MODELS[3];
     return html`
-      <div>
-        <p class="mb-4 text-sm text-slate-600">
+      <div class="mx-auto max-w-3xl">
+        <p class="mb-4 max-w-2xl text-sm leading-relaxed text-slate-600">
           Um <strong>parâmetro</strong> é um botão ajustável dentro do modelo —
           como uma sinapse com força regulável. Em 2017, ~65 milhões. Hoje,
-          ~10 biliões.
-          <span class="text-slate-500">eixo Y · log</span>
+          ~10 biliões. <span class="text-slate-500">Eixo Y em escala log.</span>
         </p>
 
-        <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-          <svg viewBox="0 0 600 220" class="w-full h-auto">
-            ${[7, 8, 9, 10, 11, 12, 13].map((p) => {
-              const y = 200 - ((p - minLog) / (maxLog - minLog)) * 180;
+        <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <svg
+            viewBox="0 0 ${plot.width} ${plot.height}"
+            class="block h-auto w-full bg-slate-50"
+            role="img"
+            aria-label="Escala logarítmica de parâmetros em modelos de linguagem de 2017 a 2026"
+          >
+            <rect width=${plot.width} height=${plot.height} fill="#f8fafc"></rect>
+            <text
+              x=${plot.left}
+              y="22"
+              font-size="11"
+              font-weight="700"
+              fill="#64748b"
+            >
+              PARÂMETROS
+            </text>
+            ${[8, 9, 10, 11, 12, 13].map((p) => {
+              const y = yFor(10 ** p);
               return html`<g>
                 <line
-                  x1="40"
-                  x2="590"
+                  x1=${plot.left}
+                  x2=${plot.width - plot.right}
                   y1=${y}
                   y2=${y}
                   stroke="#e2e8f0"
-                  stroke-dasharray="2,3"
                 ></line>
                 <text
-                  x="34"
+                  x=${plot.left - 12}
                   y=${y + 4}
                   text-anchor="end"
-                  font-size="9"
-                  fill="#94a3b8"
+                  font-size="12"
+                  fill="#64748b"
                 >
-                  10^${p}
+                  ${p === 8 ? "100 M" : p === 9 ? "1 mil M" : p === 12 ? "1 bi." : `10^${p}`}
                 </text>
               </g>`;
             })}
+            <line
+              x1=${plot.left}
+              x2=${plot.left}
+              y1=${plot.top}
+              y2=${plot.height - plot.bottom}
+              stroke="#cbd5e1"
+            ></line>
+            <line
+              x1=${plot.left}
+              x2=${plot.width - plot.right}
+              y1=${plot.height - plot.bottom}
+              y2=${plot.height - plot.bottom}
+              stroke="#cbd5e1"
+            ></line>
             <polyline
               points=${MODELS.map((m, i) => {
-                const x = 40 + (i / (MODELS.length - 1)) * 550;
-                const y =
-                  200 -
-                  ((Math.log10(m.params) - minLog) / (maxLog - minLog)) * 180;
-                return `${x},${y}`;
+                return `${xFor(i)},${yFor(m.params)}`;
               }).join(" ")}
               fill="none"
               stroke="#3b82f6"
-              stroke-width="2"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             ></polyline>
             ${MODELS.map((m, i) => {
-              const x = 40 + (i / (MODELS.length - 1)) * 550;
-              const y =
-                200 -
-                ((Math.log10(m.params) - minLog) / (maxLog - minLog)) * 180;
+              const x = xFor(i);
+              const y = yFor(m.params);
+              const labelY = labelYFor(y, i);
+              const anchor = labelAnchorFor(i);
+              const isActive = m.name === this.activeName;
+              return html`<g>
+                <line
+                  x1=${x}
+                  x2=${x}
+                  y1=${labelY + (i % 2 === 0 ? 4 : -12)}
+                  y2=${y + (i % 2 === 0 ? -8 : 10)}
+                  stroke=${isActive ? "#2563eb" : "#cbd5e1"}
+                  stroke-width="1"
+                ></line>
+                <text
+                  x=${x}
+                  y=${labelY}
+                  text-anchor=${anchor}
+                  font-size="12"
+                  font-weight=${isActive ? "700" : "600"}
+                  fill=${isActive ? "#1d4ed8" : "#334155"}
+                >
+                  ${m.name}
+                </text>
+                <text
+                  x=${x}
+                  y=${labelY + 14}
+                  text-anchor=${anchor}
+                  font-size="10"
+                  fill="#64748b"
+                >
+                  ${m.year} · ${fmt(m.params)}
+                </text>
+              </g>`;
+            })}
+            ${MODELS.map((m, i) => {
+              const x = xFor(i);
+              const y = yFor(m.params);
               const isActive = m.name === this.activeName;
               return html`<g
                 style="cursor:pointer"
@@ -97,34 +187,50 @@ export class ModelScaleChart extends IaElement {
                 <circle
                   cx=${x}
                   cy=${y}
-                  r=${isActive ? 7 : 5}
+                  r=${isActive ? 8 : 5}
                   fill=${isActive ? "#2563eb" : "#60a5fa"}
                   stroke="white"
-                  stroke-width="2"
+                  stroke-width="3"
                 ></circle>
                 <text
                   x=${x}
-                  y=${y - 12}
+                  y=${plot.height - 20}
                   text-anchor="middle"
-                  font-size="10"
+                  font-size="11"
                   font-weight=${isActive ? "700" : "400"}
-                  fill="#1e293b"
+                  fill=${isActive ? "#1d4ed8" : "#64748b"}
                 >
                   ${m.year}
                 </text>
               </g>`;
             })}
           </svg>
+
+          <div class="border-t border-slate-200 bg-white p-4">
+            <div class="mb-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span class="text-lg font-bold text-slate-900">${active.name}</span>
+              <span class="font-mono text-sm font-bold text-blue-700">
+                ${fmt(active.params)}
+              </span>
+            </div>
+            <p class="max-w-2xl text-sm leading-relaxed text-slate-700">
+              ${active.blurb}
+            </p>
+          </div>
         </div>
 
-        <div class="mt-4 rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4">
-          <div class="mb-1 flex items-baseline gap-3">
-            <span class="font-bold text-slate-900">${active.name}</span>
-            <span class="font-mono text-sm text-blue-700"
-              >${fmt(active.params)}</span
+        <div class="mt-3 flex flex-wrap gap-2">
+          ${MODELS.map(
+            (m) => html`<button
+              type="button"
+              @click=${() => (this.activeName = m.name)}
+              class="${m.name === this.activeName
+                ? "border-blue-500 bg-blue-50 text-blue-700"
+                : "border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-700"} rounded-full border px-3 py-1 text-xs font-medium"
             >
-          </div>
-          <p class="text-sm leading-relaxed text-slate-700">${active.blurb}</p>
+              ${m.name}
+            </button>`,
+          )}
         </div>
 
         <p class="mt-3 text-xs italic text-slate-500">

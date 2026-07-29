@@ -31,6 +31,9 @@ function discoverEntries() {
 }
 
 export default defineConfig({
+  test: {
+    include: ["tests/unit/**/*.test.ts"],
+  },
   build: {
     target: "es2020",
     outDir: OUT_DIR,

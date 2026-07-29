@@ -7,7 +7,7 @@ lead: "Pergunta única: se errar, quanto custa reverter?"
 idea: "Reversível: autonomia. Irreversível: revisão humana."
 ---
 
-{% from "macros/ui.njk" import objectives, aside, anchor, bridge, mariaCloser %}
+{% from "macros/ui.njk" import objectives, aside, anchor, bridge, checkpointPrompt, mariaCloser %}
 
 {{ objectives([
   "Aplicar a heurística da reversibilidade a uma tarefa concreta.",
@@ -32,6 +32,11 @@ idea: "Reversível: autonomia. Irreversível: revisão humana."
 {% demo "drift-over-time" %}
 
 <p>Modelo aprovado em 2023, validado anualmente. Sem recalibração, em 2026 a sensibilidade cai de 89 % para 73 % — abaixo do limiar de aprovação. <strong>O modelo está aprovado mas já não funciona.</strong> COVID, GLP-1 agonistas, variantes virais — o mundo muda. Recalibração trimestral em coorte local é o preço.</p>
+
+{{ checkpointPrompt(
+  "Uma tarefa é frequente, aborrecida e o modelo acerta 95 %. Isso basta para a automatizar?",
+  "Não. Primeiro pergunta se o erro é reversível, quem detecta a falha, qual o custo de falso positivo/falso negativo, e quando o modelo foi recalibrado localmente."
+) }}
 
 {% call mariaCloser() %}
 Voltamos à Maria. A pergunta certa para usar IA no caso dela não é "o que o modelo recomenda?" — é "<strong>onde, neste caso, o LLM ajuda sem decidir?</strong>". Documentar carta de alta, traduzir consentimento informado, sugerir investigação adicional para revisão: defensável. Decidir SCA vs não-SCA, prescrever AAS, decidir alta: tu.

@@ -6,7 +6,7 @@
  * "/ia-na-saude/pt-PT/".
  */
 
-export const BASE = "/ia-na-saude";
+export const BASE = process.env.PLAYWRIGHT_BASE_PATH ?? "";
 
 export function b(path: string): string {
   if (!path.startsWith("/")) path = "/" + path;
